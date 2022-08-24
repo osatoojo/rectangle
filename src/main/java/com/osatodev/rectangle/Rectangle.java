@@ -1,46 +1,21 @@
-package main.java.com.osatodev.rectangle;
+package com.osatodev.rectangle;
+
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class Rectangle {
 
-    static class Point {
-        public Point(double x, double y) {
-            this.x = x;
-            this.y = y;
-        }
 
-        public Point() {
-        }
-
-        public void setX(double x) {
-            this.x = x;
-        }
-
-        public void setY(double y) {
-            this.y = y;
-        }
-
-        public double getX() {
-            return x;
-        }
-
-        public double getY() {
-            return y;
-        }
-
-        double x, y;
-    }
-
-
-    static String containment(Point l1, Point r1, Point l2, Point r2) {
-        // Point l1, Point r1- represents the diagonal of rectangle A
-        // Point l2, Point r2- represents the diagonal of rectangle B
+    public String containment(Point  a1, Point  a4, Point  b1, Point  b4) {
+        // Point  a1, Point  a4- represents the diagonal of rectangle A
+        // Point  b1, Point  b4- represents the diagonal of rectangle B
 
         // check if all the sides of the rectangle B fall within rectangle A
-        if (l1.x <= l2.x && r2.x <= r1.x && l1.y >= l2.y && r2.y >= r1.y) {
+        if ( a1.x <=  b1.x &&  b4.x <=  a4.x &&  a1.y >=  b1.y &&  b4.y >=  a4.y) {
             return "containment";
         } else {
             return "no containment and intersection";
@@ -48,15 +23,15 @@ public class Rectangle {
 
     }
 
-    static String adjacency(Point l1, Point r1, Point l2, Point r2) {
-        // Point l1, Point r1- represents the diagonal of rectangle A
-        // Point l2, Point r2- represents the diagonal of rectangle B
+    public String adjacency(Point  a1, Point  a4, Point  b1, Point  b4) {
+        // Point  a1, Point  a4- represents the diagonal of rectangle A
+        // Point  b1, Point  b4- represents the diagonal of rectangle B
 
         // check if any of the sides touch each other
-        if (l1.x == l2.x || r2.x == r1.x || l1.y == l2.y || r2.y == l1.y || r1.x == l2.x || r1.y == l2.y) {
-            if (Math.abs(l1.y - r1.y) - Math.abs(r2.y - l2.y) != 0 ) {
+        if ( a1.x ==  b1.x ||  b4.x ==  a4.x ||  a1.y ==  b1.y ||  b4.y ==  a1.y ||  a4.x ==  b1.x ||  a4.y ==  b1.y) {
+            if (Math.abs( a1.y -  a4.y) - Math.abs( b4.y -  b1.y) != 0 ) {
                 return "sub-line";
-            } else if (l1.y != l2.y || r2.y != r1.y) {
+            } else if ( a1.y !=  b1.y ||  b4.y !=  a4.y) {
                 return "partial";
             }
             return "adjacent";
@@ -66,7 +41,8 @@ public class Rectangle {
 
     }
 
-    static void doRectangle(Point a1, Point a2, Point a3, Point a4, Point b1, Point b2, Point b3, Point b4){
+    public void doRectangle(Point a1, Point a2, Point a3, Point a4, Point b1, Point b2, Point b3, Point b4){
+
         final String containmentResponse = containment(a1, a4, b1, b4);
         final String adjacencyResponse = adjacency(a1, a4, b1, b4);
         if(containmentResponse.equals("containment")){
@@ -82,7 +58,7 @@ public class Rectangle {
         }
     }
 
-    static List<Point> intersection(Point a1, Point a2, Point a3, Point a4, Point b1, Point b2, Point b3, Point b4) {
+    public List<Point> intersection(Point a1, Point a2, Point a3, Point a4, Point b1, Point b2, Point b3, Point b4) {
         List<Point> coords = new ArrayList<>();
 
         // Point a1, Point a2, Point a3, Point a4 - represents rectangle A
@@ -144,6 +120,7 @@ public class Rectangle {
 
     /* Driver program to test above function */
     public static void main(String[] args) {
+        Rectangle rectangle = new Rectangle();
         Point a1 = new Point(), a2 = new Point(), a3 = new Point(), a4 = new Point(), b1 = new Point(), b2 = new Point(), b3 = new Point(), b4 = new Point();
         Scanner in = new Scanner(System.in).useDelimiter("[,\\s+]");
 
@@ -168,8 +145,8 @@ public class Rectangle {
 
 
 
-    doRectangle(a1, a2, a3, a4, b1, b2, b3, b4);
-    adjacency(a1, a4, b1, b4);
+        rectangle.doRectangle(a1, a2, a3, a4, b1, b2, b3, b4);
+//        rectangle. adjacency(a1, a4, b1, b4);
 
     }
 
