@@ -30,11 +30,11 @@ public class Rectangle {
         // check if any of the sides touch each other
         if ( a1.x ==  b1.x ||  b4.x ==  a4.x ||  a1.y ==  b1.y ||  b4.y ==  a1.y ||  a4.x ==  b1.x ||  a4.y ==  b1.y) {
             if (Math.abs( a1.y -  a4.y) - Math.abs( b4.y -  b1.y) != 0 ) {
-                return "sub-line";
+                return "sub-line adjacency";
             } else if ( a1.y !=  b1.y ||  b4.y !=  a4.y) {
-                return "partial";
+                return "partial adjacency";
             }
-            return "adjacent";
+            return "proper adjacency";
         } else {
             return "no adjacency";
         }
