@@ -3,14 +3,25 @@
 rectangle algorithm exercise 
 
 #### Tech used
-- Java - language
+- Java - programming language
+- docker - container
+- maven - build
 
 
-###To Set Up.. ###
+###To Set Up ... 
 - Clone the git repository
-- On a command prompt/terminal, goto the project directory  
 
 ###To Test The Application.. ###
 
-run the rectangle main class in a java environment
+In the project path run the following command:
+
+```bash
+docker build -t rectangle-algo.jar .
+
+docker run -d rectangle-algo.jar
+
+```
+
+#### the main class simulates two rectangles that intersect with each other - the docker logs displays the point of intersection
+
 
