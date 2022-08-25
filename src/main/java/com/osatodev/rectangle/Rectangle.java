@@ -1,21 +1,22 @@
 package com.osatodev.rectangle;
 
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-@Service
 public class Rectangle {
 
-
-    public String containment(Point a1, Point a4, Point b1, Point b4) {
-        // Point  a1, Point  a4- represents the diagonal of rectangle A
-        // Point  b1, Point  b4- represents the diagonal of rectangle B
+    /**
+     *         //this assumes that in a rectangle, there are four points. For this logic, I am only using 2 diagonal points
+     *         // Point  rect1Point1, Point  rect1Point2- represents the diagonal of rectangle 1
+     *         // Point  rect2Point1, Point  rect2Point2- represents the diagonal of rectangle 2
+     */
+    public String containment(Point  rect1Point1, Point  rect1Point2, Point rect2Point1, Point rect2Point2) {
+        // Point   rect1Point1, Point   rect1Point2- represents the diagonal of rectangle A
+        // Point  rect2Point1, Point  rect2Point2- represents the diagonal of rectangle B
 
         // check if all the sides of the rectangle B fall within rectangle A
-        if (a1.x <= b1.x && b4.x <= a4.x && a1.y >= b1.y && b4.y >= a4.y) {
+        if ( rect1Point1.x <= rect2Point1.x && rect2Point2.x <=  rect1Point2.x &&  rect1Point1.y >= rect2Point1.y && rect2Point2.y >=  rect1Point2.y) {
             return "containment";
         } else {
             return "no containment and intersection";
@@ -23,15 +24,18 @@ public class Rectangle {
 
     }
 
-    public String adjacency(Point a1, Point a4, Point b1, Point b4) {
-        // Point  a1, Point  a4- represents the diagonal of rectangle A
-        // Point  b1, Point  b4- represents the diagonal of rectangle B
+    /**
+     *         //this assumes that in a rectangle, there are four points. For this logic, I am only using 2 diagonal points
+     *         // Point  rect1Point1, Point  rect1Point2- represents the diagonal of rectangle 1
+     *         // Point  rect2Point1, Point  rect2Point2- represents the diagonal of rectangle 2
+     */
+    public String adjacency(Point  rect1Point1, Point  rect1Point2, Point rect2Point1, Point rect2Point2) {
 
         // check if any of the sides touch each other
-        if (a1.x == b1.x || b4.x == a4.x || a1.y == b1.y || b4.y == a1.y || a4.x == b1.x || a4.y == b1.y) {
-            if (Math.abs(a1.y - a4.y) - Math.abs(b4.y - b1.y) != 0) {
+        if ( rect1Point1.x == rect2Point1.x || rect2Point2.x ==  rect1Point2.x ||  rect1Point1.y == rect2Point1.y || rect2Point2.y ==  rect1Point1.y ||  rect1Point2.x == rect2Point1.x ||  rect1Point2.y == rect2Point1.y) {
+            if (Math.abs( rect1Point1.y -  rect1Point2.y) - Math.abs(rect2Point2.y - rect2Point1.y) != 0) {
                 return "sub-line adjacency";
-            } else if (a1.y != b1.y || b4.y != a4.y) {
+            } else if ( rect1Point1.y != rect2Point1.y || rect2Point2.y !=  rect1Point2.y) {
                 return "partial adjacency";
             }
             return "proper adjacency";
@@ -41,14 +45,17 @@ public class Rectangle {
 
     }
 
-    public void doRectangle(Point a1, Point a4, Point b1, Point b4) {
+    /**
+     * this method ties all the rectangle checks
+     */
+    public void doRectangleCheck(Point  rect1Point1, Point  rect1Point2, Point rect2Point1, Point rect2Point2) {
 
-        final String containmentResponse = containment(a1, a4, b1, b4);
-        final String adjacencyResponse = adjacency(a1, a4, b1, b4);
+        final String containmentResponse = containment( rect1Point1,  rect1Point2, rect2Point1, rect2Point2);
+        final String adjacencyResponse = adjacency( rect1Point1,  rect1Point2, rect2Point1, rect2Point2);
         if (containmentResponse.equals("containment")) {
             System.out.println(containmentResponse);
         } else if (adjacencyResponse.equals("no adjacency")) {
-            List<Point> pointList = intersection(a1, a4, b1, b4);
+            List<Point> pointList = intersection( rect1Point1,  rect1Point2, rect2Point1, rect2Point2);
             for (Point point : pointList) {
                 System.out.println(point.x + "," + point.y);
             }
@@ -57,58 +64,61 @@ public class Rectangle {
         }
     }
 
-    public List<Point> intersection(Point a1, Point a4, Point b1, Point b4) {
+    /**
+     *         //this assumes that in a rectangle, there are four points. For this logic, I am only using 2 diagonal points
+     *         // Point  rect1Point1, Point  rect1Point2- represents the diagonal of rectangle 1
+     *         // Point  rect2Point1, Point  rect2Point2- represents the diagonal of rectangle 2
+     */
+    public List<Point> intersection(Point  rect1Point1, Point  rect1Point2, Point rect2Point1, Point rect2Point2) {
         List<Point> coords = new ArrayList<>();
 
-        // Point a1, Point a2, Point a3, Point a4 - represents rectangle A
-        // Point b1, Point b2, Point b3, Point b4 - represents rectangle B
 
-        //check for intersection between a1 and a2.
-        if (a1.x < b1.x && b1.x < a4.x || a1.x < b4.x && b4.x < a4.x) {
-            // a3 to a4 has the same parameters, so we'll just check the vertical position/point of intersection of
-            // rectangle b, get it's x value, and get y depending on its position
-            if (b1.y > a1.y && a1.x < b1.x) {
-                coords.add(new Point(b1.x, a1.y));
-            } else if (a4.y < b1.y && a1.x < b1.x) {
-                if (b4.y > a4.y && b1.y > a1.y || (b1.y < a1.y && a4.y > b4.y)) {
-                    // means the top of the rectangle b is inside the rectangle A
-                    coords.add(new Point(b1.x, a4.y));
+        //check for intersection between  rect1Point1 and rect2Point1.
+        if ( rect1Point1.x < rect2Point1.x && rect2Point1.x <  rect1Point2.x ||  rect1Point1.x < rect2Point2.x && rect2Point2.x <  rect1Point2.x) {
+            // a3 to  rect1Point2 has the same parameters, so we'll just check the vertical position/point of intersection of
+            // rectangle 2, get it's x value, and get y depending on its position
+            if (rect2Point1.y >  rect1Point1.y &&  rect1Point1.x < rect2Point1.x) {
+                coords.add(new Point(rect2Point1.x,  rect1Point1.y));
+            } else if ( rect1Point2.y < rect2Point1.y &&  rect1Point1.x < rect2Point1.x) {
+                if (rect2Point2.y >  rect1Point2.y && rect2Point1.y >  rect1Point1.y || (rect2Point1.y <  rect1Point1.y &&  rect1Point2.y > rect2Point2.y)) {
+                    // means the top of the rectangle 2 is inside the rectangle 1
+                    coords.add(new Point(rect2Point1.x,  rect1Point2.y));
                 }
-//                if rectangle b is to the top of a
-            } else if (b1.y > a1.y && b1.x < a1.x && b4.x > a1.x) {
-                coords.add(new Point(b4.x, a1.y));
-            } else if (b1.y < a1.y && b4.y < a4.y && b1.x < a1.x && b4.x > a1.x) {
-                coords.add(new Point(b4.x, a4.y));
+//                if rectangle 2 is to the top of 1
+            } else if (rect2Point1.y >  rect1Point1.y && rect2Point1.x <  rect1Point1.x && rect2Point2.x >  rect1Point1.x) {
+                coords.add(new Point(rect2Point2.x,  rect1Point1.y));
+            } else if (rect2Point1.y <  rect1Point1.y && rect2Point2.y <  rect1Point2.y && rect2Point1.x <  rect1Point1.x && rect2Point2.x >  rect1Point1.x) {
+                coords.add(new Point(rect2Point2.x,  rect1Point2.y));
             }
-//          if both vertical sides of rectangle B is between rectangle A
-            if (a1.x < b1.x && a1.x < b4.x && b4.x < a4.x) {
-                if (b1.y > a1.y) {
-                    coords.add(new Point(b4.x, a1.y));
-                } else if (a4.y < b1.y && a4.y < b4.y) {
-                    coords.add(new Point(b4.x, a4.y));
-                } else if (b4.x < a4.x) {
-                    coords.add(new Point(b4.x, a4.y));
+//          if both vertical sides of rectangle 2 is between rectangle 1
+            if ( rect1Point1.x < rect2Point1.x &&  rect1Point1.x < rect2Point2.x && rect2Point2.x <  rect1Point2.x) {
+                if (rect2Point1.y >  rect1Point1.y) {
+                    coords.add(new Point(rect2Point2.x,  rect1Point1.y));
+                } else if ( rect1Point2.y < rect2Point1.y &&  rect1Point2.y < rect2Point2.y) {
+                    coords.add(new Point(rect2Point2.x,  rect1Point2.y));
+                } else if (rect2Point2.x <  rect1Point2.x) {
+                    coords.add(new Point(rect2Point2.x,  rect1Point2.y));
                 }
             }
         }
 
-        //check for intersection between a1 and a3.
-        if (a1.y > b1.y && b1.y > a4.y || b4.y > a4.y && (b1.x < a1.x || b4.x > a4.x)) {
-            if (b1.x < a1.x && a1.y > b1.y) {
-                coords.add(new Point(a1.x, b1.y));
-            } else if (b1.x < a1.x && b4.x > a4.x) {
-                coords.add(new Point(a4.x, b1.y));
+        //check for intersection between  rect1Point1 and a3.
+        if ( rect1Point1.y > rect2Point1.y && rect2Point1.y >  rect1Point2.y || rect2Point2.y >  rect1Point2.y && (rect2Point1.x <  rect1Point1.x || rect2Point2.x >  rect1Point2.x)) {
+            if (rect2Point1.x <  rect1Point1.x &&  rect1Point1.y > rect2Point1.y) {
+                coords.add(new Point( rect1Point1.x, rect2Point1.y));
+            } else if (rect2Point1.x <  rect1Point1.x && rect2Point2.x >  rect1Point2.x) {
+                coords.add(new Point( rect1Point2.x, rect2Point1.y));
             }
 
-            // if both horizontal sides of rectangle B fall within rectangle A
-            if ((b4.y > a4.y && (b1.x < a1.x || b4.x > a4.x)) || (b1.y > a4.y && b1.x > a1.x)) {
-                if (b1.y < a1.y && b4.x > a4.x) {
-                    coords.add(new Point(a4.x, b1.y));
+            // if both horizontal sides of rectangle 2 fall within rectangle 2
+            if ((rect2Point2.y >  rect1Point2.y && (rect2Point1.x <  rect1Point1.x || rect2Point2.x >  rect1Point2.x)) || (rect2Point1.y >  rect1Point2.y && rect2Point1.x >  rect1Point1.x)) {
+                if (rect2Point1.y <  rect1Point1.y && rect2Point2.x >  rect1Point2.x) {
+                    coords.add(new Point( rect1Point2.x, rect2Point1.y));
                 }
-                if ((b4.x > a4.x && b4.y > a4.y)) {
-                    coords.add(new Point(a4.x, b4.y));
-                } else if (b4.y > a4.y) {
-                    coords.add(new Point(a1.x, b4.y));
+                if ((rect2Point2.x >  rect1Point2.x && rect2Point2.y >  rect1Point2.y)) {
+                    coords.add(new Point( rect1Point2.x, rect2Point2.y));
+                } else if (rect2Point2.y >  rect1Point2.y) {
+                    coords.add(new Point( rect1Point1.x, rect2Point2.y));
                 }
             }
         }
@@ -124,24 +134,14 @@ public class Rectangle {
     /* Main method to test above function */
     public static void main(String[] args) {
         Rectangle rectangle = new Rectangle();
-        Point a1 = new Point(), a4 = new Point(), b1 = new Point(), b4 = new Point();
+        
+        Point rect1Point1 = new Point(3,8);
+        Point rect1Point2 = new Point(9,2);
 
-        //this assumes that in a rectangle, there are four points
-        // a1(x,y) represents one point or coordinate in the rectangle
-        a1.x = 3;
-        a1.y = 8;
+        Point rect2Point1 = new Point(12,7);
+        Point rect2Point2 = new Point(12,3);
 
-        a4.x = 9;
-        a4.y = 2;
-
-        b1.x = 12;
-        b1.y = 7;
-
-        b4.x = 12;
-        b4.y = 3;
-
-        rectangle.doRectangle(a1, a4, b1, b4);
-
+        rectangle.doRectangleCheck(rect1Point1, rect1Point2, rect2Point1, rect2Point2);
     }
 
 }

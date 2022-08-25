@@ -1,14 +1,24 @@
 package com.osatodev.rectangle;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Point {
 
-        double x, y;
+    double x, y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+
+    public double getY() {
+        return y;
+    }
+
+
     }
 
